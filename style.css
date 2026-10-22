@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f2e7;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    background-color: #edc740;
+    color: #35a3c7;
+    padding: 20px;
+    margin: auto;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+nav {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+
+}
+
+
+
+h3 {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    color: #777;
+    font-size: 14px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+h2 {
+    color: #2c3e50;
+}
+
+
+a:hover {
+    color: #d31919;
+    text-decoration: double;
+}
+
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1f6690;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+img {
+    width: 200px;
+    border: 4px solid;
+    border-radius: 10px;
+}
+/* Tabela de reservas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #edc740;
+    color: #333;
+}
