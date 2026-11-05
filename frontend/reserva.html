@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Restaurante Salto Ventoso</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Restaurante Salto Ventoso</h1>
+    </header>
+    <nav aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="cardapio.html">Cardápio</a>
+        <a href="sobre.html">Sobre nós</a>
+        <a href="reserva.html">Reserva</a>
+        <a href="consultar.html">Minhas reservas</a>
+        <a href="login-admin.html">Lista de reservas</a>
+    </nav>
+    <main>
+
+        <section class="card">
+            <h2>Solicitar uma reserva</h2>
+            <p>Cadastro da reserva</p> <!--Manda em json pra api-->
+            <div id="mensagemReserva" class="mensagem" role="status" hidden></div>
+            <form id="formReserva">
+                <label for="nomeReserva">Nome</label>
+                <input id="nomeReserva" name="nome" maxlength="70" autocomplete="name" required>
+
+                <label for="telefoneReserva">Telefone com DDD</label>
+                <input id="telefoneReserva" name="telefone" inputmode="tel" placeholder="51999999999" required>
+
+                <label for="cpfReserva">CPF (11 números)</label>
+                <input id="cpfReserva" name="cpf" inputmode="numeric" maxlength="14" placeholder="00000000000" required>
+
+                <label for="dataReserva">Data da reserva</label>
+                <input id="dataReserva" name="data" type="date" required>
+
+                <label for="idmesa">Mesa (opcional)</label>
+                <select id="idmesa" name="idmesa">
+                    <option value="">Sem preferência de mesa</option>
+                </select>
+
+                <button type="submit">Enviar reserva</button>
+            </form>
+        </section>
+        
+    </main>
+    <footer>Av. bem te ver, 1969 - Cs. postal 1253 - Bairro tal do tal - Não-Me-Toque - RS - CEP 21553</footer>
+
+    <script src="js/api.js"></script>
+<script src="js/reserva.js"></script>
+</body>
+</html>

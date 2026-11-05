@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minhas reservas | Restaurante Salto Ventoso</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-profile="cliente">
+    <header>
+        <h1>Restaurante Salto Ventoso</h1>
+        <p>Reservas simples, sem complicação.</p>
+    </header>
+    <nav aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="cardapio.html">Cardápio</a>
+        <a href="sobre.html">Sobre nós</a>
+        <a href="reserva.html">Reserva</a>
+        <a href="consultar.html">Minhas reservas</a>
+        <a href="login-admin.html">Lista de reservas</a>
+    </nav>
+    <main>
+
+        <section class="card">
+            <h2>Consultar minhas reservas</h2>
+            <p>Informe o CPF e o telefone usados no cadastro. A API retorna um token para consultar suas reservas.</p>
+            <div id="mensagemLoginCliente" class="mensagem" role="status" hidden></div>
+            <form id="formLoginCliente">
+                <label for="cpfCliente">CPF (11 números)</label>
+                <input id="cpfCliente" name="cpf" inputmode="numeric" maxlength="14" required>
+                <label for="telefoneCliente">Telefone com DDD</label>
+                <input id="telefoneCliente" name="telefone" inputmode="tel" required>
+                <button type="submit">Consultar reservas</button>
+            </form>
+            <section id="painelCliente" hidden>
+                <p>Você está autenticado como cliente. A lista mostra somente as suas reservas.</p>
+                <button type="button" class="secundario" id="sairCliente">Sair da consulta</button>
+            </section>
+        </section>
+
+        <div id="painelListaCliente" hidden>
+        <section class="card">
+            <h2>Reservas cadastradas</h2>
+            <p class="pequeno-texto">A lista é carregada pela API usando o token da sessão.</p>
+            <div id="mensagemReservas" class="mensagem" role="status" hidden></div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>Cliente</th><th>Telefone</th><th>Data</th><th>Mesa</th><th>Ações</th></tr>
+                    </thead>
+                    <tbody id="corpoReservas">
+                        <tr><td colspan="6">Carregando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="card" id="painelEdicao" hidden>
+            <h2>Editar reserva</h2>
+            <form id="formEditarReserva">
+                <label for="nomeEdicao">Nome</label>
+                <input id="nomeEdicao" maxlength="70" required>
+                <label for="telefoneEdicao">Telefone</label>
+                <input id="telefoneEdicao" inputmode="tel" required>
+                <label for="dataEdicao">Data</label>
+                <input id="dataEdicao" type="date" required>
+                <label for="mesaEdicao">Mesa</label>
+                <select id="mesaEdicao"><option value="">Sem preferência de mesa</option></select>
+                <button type="submit">Salvar alteração</button>
+                <button type="button" class="secundario" id="cancelarEdicao">Fechar sem salvar</button>
+            </form>
+        </section>
+        </div>
+
+    </main>
+     <footer>Av. bem te ver, 1969 - Cs. postal 1253 - Bairro tal do tal - Não-Me-Toque - RS - CEP 21553</footer>
+
+    <script src="js/api.js"></script>
+<script src="js/consultar.js"></script>
+<script src="js/gerenciar-reservas.js"></script>
+</body>
+</html>
