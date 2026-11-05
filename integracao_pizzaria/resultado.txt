@@ -1,0 +1,74 @@
+Testando a API em: http://localhost/integracao_pizzaria/integracao_pizzaria/api
+
+--- Token ---
+[OK] GET sem token (401)
+[OK] GET por id sem token (401)
+[OK] PUT sem token (401)
+[OK] DELETE sem token (401)
+[FALHOU] Token inválido: esperado 401, recebido 500
+[FALHOU] Token com formato certo mas inexistente: esperado 401, recebido 500
+[OK] Authorization que não é Bearer (401)
+--- Mesas ---
+[OK] Listar mesas sem login (200)
+[OK] Resposta é JSON (application/json)
+[OK] POST em mesas (405)
+--- POST com dados inválidos ---
+[OK] Campos obrigatórios vazios (400)
+[OK] Corpo que não é JSON (400)
+[OK] Telefone curto (400)
+[OK] CPF curto (400)
+[OK] Data que não existe (400)
+[OK] Data no formato errado (400)
+[OK] Data no passado (400)
+[OK] Mesa que não existe (400)
+[FALHOU] CPF já cadastrado com outro telefone: esperado 400, recebido 500
+--- POST: criar ---
+[FALHOU] Criar reserva do cliente A: esperado 201, recebido 500
+[FALHOU] O id da reserva A não veio na resposta:
+{"message":"Erro no servidor. Detalhe: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cpf' in 'field list'"}
+[FALHOU] Criar reserva do cliente B (com máscara e mesa): esperado 201, recebido 500
+[FALHOU] O id da reserva B não veio na resposta:
+{"message":"Erro no servidor. Detalhe: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cpf' in 'field list'"}
+--- Login do cliente ---
+[OK] Login sem CPF e telefone (400)
+[OK] Tipo de login inválido (400)
+[FALHOU] Login com telefone errado: esperado 401, recebido 500
+[OK] GET em auth (405)
+[FALHOU] Login do cliente A: esperado 200, recebido 500
+[FALHOU] O token do cliente não veio na resposta:
+{"message":"Erro no servidor. Detalhe: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cpf' in 'field list'"}
+--- Cliente A com token ---
+[FALHOU] Cliente vê a própria reserva: esperado 200, recebido 400
+[FALHOU] Cliente lista as reservas: esperado 200, recebido 401
+[FALHOU] Cliente vê só 1 reserva na lista: esperado 1, recebido 0
+[FALHOU] Cliente não vê reserva de outro: esperado 403, recebido 400
+[FALHOU] Cliente não altera reserva de outro: esperado 403, recebido 400
+[FALHOU] Cliente não cancela reserva de outro: esperado 403, recebido 400
+[FALHOU] Id que não existe: esperado 404, recebido 401
+[FALHOU] PUT em id que não existe: esperado 404, recebido 401
+[OK] Id que não é número (400)
+[FALHOU] PUT sem id: esperado 400, recebido 401
+[FALHOU] DELETE sem id: esperado 400, recebido 401
+[OK] PUT com nome vazio (400)
+[OK] PUT com data no passado (400)
+[FALHOU] Cliente altera a própria reserva: esperado 200, recebido 400
+--- Administrador ---
+[OK] Login admin sem usuário e senha (400)
+[FALHOU] Login admin com senha errada: esperado 401, recebido 500
+[FALHOU] Login admin: esperado 200, recebido 500
+[FALHOU] O token do admin não veio na resposta:
+{"message":"Erro no servidor. Detalhe: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'restaurante.usuarios_admin' doesn't exist"}
+[FALHOU] Admin lista todas as reservas: esperado 200, recebido 401
+[FALHOU] Admin vê as reservas de vários clientes: esperado ok, recebido só 0
+[FALHOU] Admin vê reserva de qualquer cliente: esperado 200, recebido 400
+[FALHOU] Admin altera reserva de qualquer cliente: esperado 200, recebido 400
+[OK] Admin: PUT com data nova no passado (400)
+--- DELETE ---
+[FALHOU] Cliente cancela a própria reserva: esperado 200, recebido 400
+[FALHOU] Reserva cancelada não existe mais: esperado 404, recebido 400
+[FALHOU] Admin cancela reserva: esperado 200, recebido 400
+[FALHOU] Cancelar de novo: esperado 404, recebido 400
+--- Métodos ---
+[FALHOU] PATCH em reservas: esperado 405, recebido 401
+
+Resultado: 24 aprovado(s), 33 falha(s).
