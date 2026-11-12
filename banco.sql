@@ -63,6 +63,5 @@ INSERT INTO `mesas` (`espaco`) VALUES (2), (4), (4), (6), (8);
 INSERT INTO `reservas` (`idpessoa`, `idmesa`, `data`) VALUES
  (1, 1, '2026-10-30'), (2, 3, '2026-10-31'), (3, 2, '2026-11-02'),
  (4, 4, '2026-11-05'), (5, 5, '2026-11-12');
--- Conta de desenvolvimento para o piloto. Troque a senha antes de qualquer publicação.
 INSERT INTO `usuarios_admin` (`usuario`, `senha_hash`) VALUES
- ('admin', '$2y$12$j2QBNZMxQ2Ks6Rv4DfxOqumPVnwreWuATu.82jLUu9tEdecGsXDlC');
+ ('admin', '$2y$12$bclOcGZ88kvOPzUn/z4ZM.Nv16/7XjYhBCafAFue2Vzq4Q/M1z9PK');
