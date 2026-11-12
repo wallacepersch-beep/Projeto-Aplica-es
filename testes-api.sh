@@ -1,6 +1,6 @@
 set -u
 
-API="${API_URL:-http://localhost/Downloads/integracao_pizzaria/api}"
+API="${API_URL:-http://localhost/Projeto/integracao_pizzaria/api}"
 ADMIN_USER="${ADMIN_USER:-admin}"
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-Admin@12345}"
 

@@ -3,6 +3,7 @@ date_default_timezone_set("America/Sao_Paulo");
 
 
 define("DEBUG", true); //mudar pra false depois que estiver pronto, é só pra se der o erro 500 esse
+define("TOKEN_FIXO", "qwerw");
 
 $host  = "127.0.0.1";
 $porta = 3306;

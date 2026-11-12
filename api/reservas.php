@@ -1,49 +1,29 @@
 <?php
-// API de RESERVAS  →  reservas.php
-//
-//   GET    reservas.php        lista as reservas (admin: todas; cliente: só as suas)  [token]
-//   GET    reservas.php?id=1   mostra uma reserva                                     [token]
-//   POST   reservas.php        cria uma reserva                                       [público]
-//   PUT    reservas.php?id=1   atualiza uma reserva                                   [token]
-//   DELETE reservas.php?id=1   cancela uma reserva                                    [token]
-//
-// Como funciona o token (resumo):
-//   1. O front-end envia o header  Authorization: Bearer <token>.
-//   2. exigirToken() (em funcoes.php) confere esse token no banco.
-//      - Inválido/ausente  → responde 401 e o script PARA.
-//      - Válido            → devolve os dados do usuário (tipo, idpessoa, idusuario).
-//   3. Aqui usamos esses dados para decidir o que cada um pode ver/alterar (403 se não puder).
 
 require __DIR__ . "/funcoes.php";
 cabecalhos();
-
-// Garante que "hoje" seja o dia do Brasil (senão a validação de data no passado pode errar à noite).
-date_default_timezone_set("America/Sao_Paulo");
 
 require __DIR__ . "/conexao.php";
 require __DIR__ . "/dao/ClienteDAO.php";
 require __DIR__ . "/dao/MesaDAO.php";
 require __DIR__ . "/dao/ReservaDAO.php";
 
-// ---------- funções só desta API ----------
+//funcoes para esta api
 
-// A data está no formato AAAA-MM-DD e existe no calendário?
+//data em formato AAAA-MM-DD e valido
 function dataValida($data)
 {
-    // A regex garante que só há números nos lugares certos (evita "2026-1a-10").
-    if (!preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $data, $partes)) {
+    if (strlen($data) != 10 || $data[4] != "-" || $data[7] != "-") {
         return false;
     }
-    return checkdate((int) $partes[2], (int) $partes[3], (int) $partes[1]);
+    return checkdate((int) substr($data, 5, 2), (int) substr($data, 8, 2), (int) substr($data, 0, 4));
 }
 
-// Confere os dados do body. Se algo estiver errado, responde 400 e o script para.
-// Se estiver tudo certo, devolve os dados limpos num array.
-// $exigirCpf: no POST o CPF é obrigatório; no PUT ele não muda.
+//confere os dados do body e algo estiver errado, responde 400 e o script para e se estiver tudo certo, devolve os dados limpos num array
 function lerDadosDaReserva($d, $mesas, $exigirCpf)
 {
     $nome     = texto($d["nome"] ?? "");
-    $telefone = preg_replace("/[^0-9]/", "", texto($d["telefone"] ?? "")); // fica só com os números
+    $telefone = preg_replace("/[^0-9]/", "", texto($d["telefone"] ?? "")); //fica só com os números
     $cpf      = preg_replace("/[^0-9]/", "", texto($d["cpf"] ?? ""));
     $data     = texto($d["data"] ?? "");
 
@@ -60,20 +40,19 @@ function lerDadosDaReserva($d, $mesas, $exigirCpf)
         erro(400, "Informe uma data válida no formato AAAA-MM-DD.");
     }
 
-    // A mesa é opcional. Se vier, precisa ser um número inteiro e existir.
+    //mesa opcional nesse caso
     $idmesa = null;
-    if (isset($d["idmesa"]) && $d["idmesa"] !== "" && $d["idmesa"] !== null) {
-        $valor = texto($d["idmesa"]);
-        if (!ctype_digit($valor) || (int) $valor < 1 || !$mesas->buscarPorId((int) $valor)) {
+    if (isset($d["idmesa"]) && $d["idmesa"] !== "") {
+        if (!is_numeric($d["idmesa"]) || (int) $d["idmesa"] < 1 || !$mesas->buscarPorId((int) $d["idmesa"])) {
             erro(400, "A mesa escolhida não existe.");
         }
-        $idmesa = (int) $valor;
+        $idmesa = (int) $d["idmesa"];
     }
 
     return ["nome" => $nome, "telefone" => $telefone, "cpf" => $cpf, "data" => $data, "idmesa" => $idmesa];
 }
 
-// O admin vê qualquer reserva; o cliente só as dele.
+
 function podeAcessar($usuario, $reserva)
 {
     if ($usuario["tipo"] == "admin") {
@@ -82,7 +61,7 @@ function podeAcessar($usuario, $reserva)
     return $reserva["idpessoa"] == $usuario["idpessoa"];
 }
 
-// ---------- topo: ler a requisição ----------
+//le a requisição no topo
 
 $metodo = $_SERVER["REQUEST_METHOD"];
 $d      = lerBody();
@@ -100,14 +79,11 @@ try {
     $mesas    = new MesaDAO($pdo);
     $reservas = new ReservaDAO($pdo);
 
-    // Só o POST (fazer uma reserva) é público. Todo o resto exige token (401).
-    // Se o token for inválido, exigirToken() já responde 401 e encerra o script.
     $usuario = null;
     if ($metodo != "POST") {
         $usuario = exigirToken($pdo);
     }
 
-    // ---------- o switch: um case por método ----------
 
     switch ($metodo) {
 
@@ -138,7 +114,6 @@ try {
                 erro(400, "A data da reserva não pode estar no passado.");
             }
 
-            // Cliente novo ou que já existe (o CPF identifica a pessoa).
             $cliente = $clientes->buscarPorCpf($r["cpf"]);
             if ($cliente) {
                 if ($cliente["telefone"] != $r["telefone"]) {
@@ -167,7 +142,7 @@ try {
 
             $r = lerDadosDaReserva($d, $mesas, false);
 
-            // Só barra data no passado se a data foi trocada (assim dá para corrigir o nome de uma reserva antiga).
+            //só barra as datas no passado se foi trocado
             if ($r["data"] != $reserva["data"] && $r["data"] < date("Y-m-d")) {
                 erro(400, "A data da reserva não pode estar no passado.");
             }

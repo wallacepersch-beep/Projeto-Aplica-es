@@ -20,7 +20,7 @@
         if (opcoes.body !== undefined) {
             cabecalhos["Content-Type"] = "application/json";
         }
-        if (opcoes.token) { 
+        if (opcoes.token) {
             cabecalhos["Authorization"] = `Bearer ${opcoes.token}`;
         }
 
